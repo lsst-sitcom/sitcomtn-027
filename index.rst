@@ -44,6 +44,8 @@
 
 .. TODO: Delete the note below before merging new content to the main branch.
 
+.. include:: donutfinding.rst
+
 .. note::
 
    **This technote is not yet published.**
