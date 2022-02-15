@@ -6,7 +6,7 @@ The latter two are degenerate over the modeset field of view of the Aux Tel syst
 independently adjustable. Changing that ratio requires moving either the primary mirror positioning setpoint or the standoff distanace of the instrument from the Nasmyth flange. 
 
 Proper collimation places the optical axes of the primary and secondary mirrors line on a single line. Small positioning offsets can be compensated by introducing a tilt of the 
-secondary. When the system is properly collimated, in an out-of-focus ``donut'' image the obscuration of the secondary mirror is centered on the primary pupil. Also, the surface 
+secondary. When the system is properly collimated, in an out-of-focus ``donut`` image the obscuration of the secondary mirror is centered on the primary pupil. Also, the surface 
 brightness of the light is uniform. If the secodary is displaced, then the obscuration moves off center and a planar tilt in surface brightness appears. 
 
 Sequences of images were acquired with the secondary mirror displaced on an x-y grid. The resulting images were analyzed to ascertain the offset between the centers of the 
@@ -19,7 +19,12 @@ The secondary support spiders obscure the annular donut, and the images contain 
 Data
 ====
 We used the data from the November 2021 run of AuxTel. specifically we used images ``seq_num`` 501-554 for this analysis.
-We found that our analysis was improved by driving the secondary further out of focus than the amount typically used for the wavefront curvature sensing. For the images analyzed here, the focus offset of the seecondary was ZZ mm. The grid of secondary offsets spanned $\pm$ XX mm. 
+We found that our analysis was improved by driving the secondary further out of focus than the amount typically used for the wavefront curvature sensing. For the images analyzed here, the focus offset of the seecondary was ZZ mm. The grid of secondary offsets spanned :math:`\pm` XX mm. 
+
+.. figure:: /_static/cutout.png 
+  :name: cutout
+
+  The initial cutout of a donut, before it has been normalized or gaussianized. the example used is sequence 502. 
 
 We first smooth out the image by running it through :py:func:`cv2.GaussianBlur`. This amounts to a low pass spatial filter that improves the signal to noise ratio. 
 Next we normalize the flux across the
@@ -36,14 +41,29 @@ the normalized image is then:
     normImage = (smoothedImage - skyValue)/normValue
 
 The ``normPercent`` and ``skyPercent`` are dependent on the date the data was taken and the brightness of the star that was imaged. 
-(Need to add what values were actually used) 
+For the analysis done of the donuts from the November 2021 run, we used ``normPercent``=90 and ``skyPercent``=15. 
+
+.. figure:: /_static/detail3.png
+  :name: normalizingfigure
+
+  Top figures are the Gaussianized but not normalized donut, and a cross-section. The bottom two figures are the normalized versions of these. Same sequence used as above. 
 
 Next we use the ``normImage`` for determining a mask that will pick out only the useful donut part of the image. We convert this
 mask into a ``uint8`` copy of the image, this last part is for finding finding the inner and outer cirlces only. While the
 mask is used both for this and for the gradient fit, see below. 
 
+.. figure:: /_static/detail4.png 
+  :name: maskfigure
+
+  the mask obtained from the ``normImage`` using a ``maxclip`` value to cut out the mask, for the November 2021 run we used ``maxclip``=0.8.
+
 For obtaining the circles we use the :py:func:`cv2.HoughCircles` to get the circle centers and radii. The parameters of the function are sequentially chosen to 
 pick out the inner and outer edges of the annulus, respectively. 
+
+.. figure:: /_static/detail5.png 
+  :name: circles_detect_figure
+
+  Left is just the outer-circle fitted, while right image is both circles added in. 
 
 
 Analyses
