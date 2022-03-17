@@ -1,8 +1,8 @@
 Objective
 ====
 This work is motivated as a verification exercise for the wavefront curvature sensing implementation on the Rubin Auxiliary Telescope.
-Achieving collimation on that telscope uses three effective degrees of freedom: 1) the z-position of the secondary, and 2) the combinatino of secondary tilt and x,y position. 
-The latter two are degenerate over the modeset field of view of the Aux Tel system. Note that primary-to-secondary and secondary-to-focal plane spacing are linked are are not 
+Achieving collimation on that telscope uses three effective degrees of freedom: 1) the z-position of the secondary, and 2) the combination of secondary tilt and x,y position. 
+The latter two are degenerate over the modeset field of view of the Aux Tel system. Note that primary-to-secondary and secondary-to-focal plane spacing are linked and are not 
 independently adjustable. Changing that ratio requires moving either the primary mirror positioning setpoint or the standoff distanace of the instrument from the Nasmyth flange. 
 
 Proper collimation places the optical axes of the primary and secondary mirrors line on a single line. Small positioning offsets can be compensated by introducing a tilt of the 
@@ -10,16 +10,16 @@ secondary. When the system is properly collimated, in an out-of-focus ``donut`` 
 brightness of the light is uniform. If the secodary is displaced, then the obscuration moves off center and a planar tilt in surface brightness appears. 
 
 Sequences of images were acquired with the secondary mirror displaced on an x-y grid. The resulting images were analyzed to ascertain the offset between the centers of the 
-primary and secondary mirrors. In addition, a planar fit to the annular surface brightness was performed. The eentroid offsets in x and y and the surface brightness gradient 
+primary and secondary mirrors. In addition, a planar fit to the annular surface brightness was performed. The centroid offsets in x and y and the surface brightness gradient 
 were fitted to the x,y mirror displacement in order to determine the best-position of the secondary. That can then be compared to the best-position as determined by the 
 wavefront curvature code. 
 
-The secondary support spiders obscure the annular donut, and the images contain some cosmic rays and detector artifacts. This requires trimming pixel array to retain only meaningful surface brightness measurements. 
+The secondary support spiders obscure the annular donut, and the images contain some cosmic rays and detector artifacts. This requires trimming pixel arrays to retain only meaningful surface brightness measurements. 
 
 Data
 ====
 We used the data from the November 2021 run of AuxTel. specifically we used images ``seq_num`` 501-554 for this analysis.
-We found that our analysis was improved by driving the secondary further out of focus than the amount typically used for the wavefront curvature sensing. For the images analyzed here, the focus offset of the seecondary was ZZ mm. The grid of secondary offsets spanned :math:`\pm` XX mm. 
+We found that our analysis was improved by driving the secondary further out of focus than the amount typically used for the wavefront curvature sensing. For the images analyzed here, the axial offset of the seecondary was 8 mm. The grid of latteral offsets spanned :math:`\pm` 4 mm. 
 
 .. figure:: /_static/cutout.png 
   :name: cutout
@@ -27,8 +27,7 @@ We found that our analysis was improved by driving the secondary further out of 
   The initial cutout of a donut, before it has been normalized or gaussianized. the example used is sequence 502. 
 
 We first smooth out the image by running it through :py:func:`cv2.GaussianBlur`. This amounts to a low pass spatial filter that improves the signal to noise ratio. 
-Next we normalize the flux across the
-donut. This is done by determining the ``normValue`` for the donut and a background ``skyValue``
+Next we normalize the flux across the donut. This is done by determining the ``normValue`` for the donut and a background ``skyValue``
 the normalized image is then:
 
 .. code-block:: py
